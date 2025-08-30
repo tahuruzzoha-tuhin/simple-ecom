@@ -1,0 +1,52 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <h2>Category List</h2>
+
+            {% if categories %}
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Serial</th>
+                                    <th>name</th>
+                                    <th>slug</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ category.name }}</td>
+                                    <td>{{ category.slug }}</td>
+                                    <td>{{ category.created_at }}</td>
+                                    <td>
+                                        <a href="#">
+                                            <button class="btn btn-warning" >Edit</button>
+                                        </a>
+                                        
+                                        <a href="#">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+
+{% endblock %}

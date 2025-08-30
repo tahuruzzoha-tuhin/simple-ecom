@@ -1,0 +1,40 @@
+*.pyc
+*.DS_Store
+*.egg*
+/dist/
+/.idea
+/docs/_build/
+/node_modules/
+build/
+env
+/staticfiles/
+
+#src
+#*.sqlite*
+
+#.env
+node_modules
+venv
+__pycache__/
+*.log
+*.pyo
+*.pyd
+*.db  
+
+
+# Backup files
+*~
+*.bak
+*.swp
+*.tmp   
+
+# IDE specific files
+.vscode/
+*.sublime-workspace
+*.sublime-project   
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd      
+db.sqlite3  
