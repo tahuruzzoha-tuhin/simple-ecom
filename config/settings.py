@@ -27,7 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'Super_Secr3t_9999')
 
 # Enable/Disable DEBUG Mode
-DEBUG = str2bool(os.environ.get('DEBUG'))
+# DEBUG = str2bool(os.environ.get('DEBUG'))
+DEBUG = True
 #print(' DEBUG -> ' + str(DEBUG) ) 
 
 # Docker HOST
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # Include DRF Auth      # <-- NEW   
     
     'product_management',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -175,6 +177,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
 
 #if not DEBUG:
 #    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

@@ -1,52 +1,88 @@
+<!-- product_management/category/category_list.html -->
 {% extends "layouts/base.html" %}
 
 {% block content %}
-
 <div class="content-wrapper">
     <section class="content">
         <div class="container-fluid">
-            <h2>Category List</h2>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-tags"></i> Categories</h2>
+                <a href="{% url 'category_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Category
+                </a>
+            </div>
 
-            {% if categories %}
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Serial</th>
-                                    <th>name</th>
-                                    <th>slug</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for category in categories %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ category.name }}</td>
-                                    <td>{{ category.slug }}</td>
-                                    <td>{{ category.created_at }}</td>
-                                    <td>
-                                        <a href="#">
-                                            <button class="btn btn-warning" >Edit</button>
+            {% if page_obj %}
+                <div class="row">
+                    {% for category in page_obj %}
+                        <div class="col-md-4 col-sm-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ category.name }}</h5>
+                                    <p class="card-text">{{ category.description|truncatechars:100 }}</p>
+                                    <p class="text-muted small">
+                                        <i class="fas fa-box"></i> {{ category.products_category.count }} product(s)
+                                        <br>
+                                        <i class="fas fa-calendar"></i> Created: {{ category.created_at|date:"M d, Y" }}
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <div class="btn-group w-100">
+                                        <a href="{% url 'category_detail' category.slug %}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye"></i> View
                                         </a>
-                                        
-                                        <a href="#">
-                                            <button class="btn btn-danger">Delete</button>
+                                        <a href="{% url 'category_update' category.slug %}" class="btn btn-outline-warning btn-sm">
+                                            <i class="fas fa-edit"></i> Edit
                                         </a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                        <a href="{% url 'category_delete' category.slug %}" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
 
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                    <nav aria-label="Categories pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">&laquo; First</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item active">
+                                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                            </li>
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="text-center mt-5">
+                    <i class="fas fa-tags fa-5x text-muted mb-3"></i>
+                    <h4>No categories found</h4>
+                    <p class="text-muted">Start by creating your first category!</p>
+                    <a href="{% url 'category_create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create First Category
+                    </a>
+                </div>
             {% endif %}
         </div>
     </section>
 </div>
-
-
 {% endblock %}

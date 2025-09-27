@@ -15,19 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from product_management.views import  home, login_view, register_view, logout_view
+from django.conf import settings
+from django.conf.urls.static import static
+from product_management.views import home
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
-    # path('pages', include('apps.pages.urls')),
-    # path('dyn_dt', include('apps.dyn_dt.urls')),
-    # path('dyn_api', include('apps.dyn_api.urls')),
+    # path('', include('apps.pages.urls')),
+    # path('', include('apps.dyn_dt.urls')),
+    # path('', include('apps.dyn_api.urls')),
     # path('charts/', include('apps.charts.urls')),
-    # path("admin/", admin.site.urls),
-    path('', home, name="home_page"),
+    path("admin/", admin.site.urls),
+    # path('', auth_views.index),
     path("dashboard/", include('admin_adminlte.urls'), name="dashboard"),
-    
-    path('accounts/login/', login_view, name='login'),
-    path('accounts/register/', register_view, name='register'),
-    path('accounts/logout/', logout_view, name='logout'),
-    
+    path("", home, name="home"),
+    path("accounts/", include("accounts.urls")),
     path("product_management/", include("product_management.urls"))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
