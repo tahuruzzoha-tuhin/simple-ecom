@@ -19,6 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from product_management.views import home
 from django.contrib.auth import views as auth_views
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 
 urlpatterns = [
     # path('', include('apps.pages.urls')),
@@ -30,7 +35,12 @@ urlpatterns = [
     path("dashboard/", include('admin_adminlte.urls'), name="dashboard"),
     path("", home, name="home"),
     path("accounts/", include("accounts.urls")),
-    path("product_management/", include("product_management.urls"))
+    path("product_management/", include("product_management.urls")),
+    
+    # JWT Token endpoints
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

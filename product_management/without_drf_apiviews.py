@@ -1,5 +1,9 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
 from product_management.models import Category, Product
 
@@ -35,7 +39,8 @@ def product_to_dict(product):
 
 
 # Categories Views
-@require_http_methods(["GET", "POST"])
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def category_list_create(request):
     if request.method == "GET":
         categories = Category.objects.all() #queryset
@@ -47,7 +52,8 @@ def category_list_create(request):
     
     
 
-@require_http_methods(["GET", "PUT", "DELETE"])
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def category_details(request, pk):
     category = Category.objects.get(pk=pk)
     
@@ -60,7 +66,8 @@ def category_details(request, pk):
         
         
 # Products Views
-@require_http_methods(["GET", "POST"])
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def product_list_create(request):
     if request.method == "GET":
         products = Product.objects.all()
@@ -72,7 +79,8 @@ def product_list_create(request):
     
     
 
-@require_http_methods(["GET", "PUT", "DELETE"])
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def product_details(request, pk):
     product = Product.objects.get(pk=pk)
     
@@ -87,7 +95,8 @@ def product_details(request, pk):
 
 
 # Products by Category
-@require_http_methods(["GET"])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def products_by_category(request, category_slug):
     category = Category.objects.get(slug=category_slug)
     products = Product.objects.filter(category=category)
