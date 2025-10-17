@@ -72,9 +72,11 @@ INSTALLED_APPS = [
     
     'product_management',
     'accounts',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -215,3 +217,12 @@ REST_FRAMEWORK = {
     ],
 }
 ########################################
+
+
+# CORS Settings
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+   "http://localhost:8000",
+   "http://localhost:5173",
+   "https://simpleecom.com"
+]

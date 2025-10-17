@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 from product_management.views import *
+from product_management.without_drf_apiviews import *
+from product_management.drf_apiviews import *
 
 urlpatterns = [
     
@@ -37,4 +39,34 @@ urlpatterns = [
     
     # Products by category
     path('category/<slug:category_slug>/products/', products_by_category, name='products_by_category'),
+]
+
+
+
+
+
+
+urlpatterns += [
+    #Categories
+    path("api/categories/", category_list_create, name="api_category_list_create"),
+    path("api/categories/<int:pk>/", category_details, name="api_category_details"),
+    
+    #Products
+    path("api/products/", product_list_create, name="api_product_list_create"),
+    path("api/products/<int:pk>/", product_details, name="api_product_details"),
+    
+    path("api/products/category/<slug:category_slug>/", products_by_category, name="api_products_by_category"),
+    
+        
+]
+
+
+urlpatterns += [
+    #Categories
+    path("api/drf/categories/", CategoryListCreateAPIView.as_view(), name="drf_category_list_create"),
+    path("api/drf/categories/<int:pk>/", CategoryDetailsAPIView.as_view(), name="drf_category_details"),
+    
+    #Products
+    path("api/drf/products/", ProductListCreateAPIView.as_view(), name="drf_product_list_create"),
+    path("api/drf/products/<int:pk>/", ProductDetailsAPIView.as_view(), name="drf_product_details"),
 ]

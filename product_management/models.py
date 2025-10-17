@@ -12,6 +12,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Product Category'
         ordering = ('created_at',)
+        # managed = False
         
     def __str__(self):
         return self.name
@@ -23,7 +24,7 @@ class Category(models.Model):
     
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name="products_category", on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name="products_category", on_delete=models.CASCADE) #one_to_many
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(blank=True)
