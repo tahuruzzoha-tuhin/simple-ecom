@@ -105,7 +105,12 @@ def logout_api(request):
     Logout API that blacklists the refresh token
     """
     try:
-        refresh_token = request.data["refresh"]
+        refresh_token = request.data.get("refresh")
+        if not refresh_token:
+            return Response({
+                'error': 'Refresh token is required'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
         token = RefreshToken(refresh_token)
         token.blacklist()
         return Response({
@@ -113,5 +118,5 @@ def logout_api(request):
         }, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({
-            'error': 'Invalid token'
+            'error': f'Invalid token: {str(e)}'
         }, status=status.HTTP_400_BAD_REQUEST)
